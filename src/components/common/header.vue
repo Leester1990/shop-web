@@ -2,7 +2,7 @@
   <div class="common-header">
     <div class="top-nav">
       <div class="common-wid">
-        <div class="left-txt">现在是北京时间：2019-11-15 22:23:33</div>
+        <div class="left-txt">现在是北京时间：<span>{{nowTimeTxt}}</span></div>
         <div class="top-nav-list">
           <ul>
             <li><a href="">登录</a></li>
@@ -16,8 +16,41 @@
 </template>
 
 <script>
+  import { ajaxGet } from '../../reqConfig/ajax'
   export default {
-    name: "common-header"
+    name: "common-header",
+    data () {
+      return {
+        nowTime: "",
+        nowTimeTxt: ""
+      }
+    },
+    mounted() {
+      this.init()
+    },
+    methods: {
+      init() {
+        ajaxGet("/api/common/getNowTime")
+          .then(res => {
+            if(res.code === 200) {
+              this.nowTime = res.data.timestamp;
+              this.addLocalTime();
+            }
+          }).catch(() => {
+          console.log("获取当前日期错误");
+        })
+      },
+      addLocalTime() {
+        this.addTime();
+        setInterval(() => {
+          this.nowTime = this.nowTime + 1000;
+          this.addTime()
+        }, 1000)
+      },
+      addTime() {
+        this.nowTimeTxt = this.$tools.formatDate.formatDate(new Date(this.nowTime), "yyyy-MM-dd hh:mm:ss")
+      }
+    }
   }
 </script>
 
@@ -31,6 +64,7 @@
       border-bottom: 1px solid #eaeaea;
       font-size: 12px;
       color: #999;
+      font-family: simsun;
     }
     .left-txt {
       display: inline-block;
@@ -41,6 +75,7 @@
         float: left;
         a {
           margin: 0 10px;
+          font-family: simsun;
           &:hover {
             color: @theme-color;
           }

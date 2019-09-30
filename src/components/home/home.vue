@@ -5,6 +5,12 @@
 <script>
   export default {
     name: "home",
+    data () {
+      return {
+        nowTime: "",
+        nowTimeTxt: ""
+      }
+    }
   }
 </script>
 

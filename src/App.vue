@@ -15,9 +15,6 @@
     components: {
       comHeader,
       comFooter
-    },
-    mounted() {
-      console.log(this.$router.meta);
     }
   }
 </script>
