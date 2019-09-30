@@ -1,14 +1,25 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png">
+    <comHeader v-if="$route.meta.isShowHeader"></comHeader>
     <router-view/>
+    <comFooter v-if="$route.meta.isShowFooter"></comFooter>
   </div>
 </template>
 
 <script>
-export default {
-  name: 'App'
-}
+  import comHeader from "@com/common/header"
+  import comFooter from "@com/common/footer"
+  import "../static/css/common.min.css"
+  export default {
+    name: 'App',
+    components: {
+      comHeader,
+      comFooter
+    },
+    mounted() {
+      console.log(this.$router.meta);
+    }
+  }
 </script>
 
 <style>
@@ -16,8 +27,6 @@ export default {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+  color: #252525;
 }
 </style>
